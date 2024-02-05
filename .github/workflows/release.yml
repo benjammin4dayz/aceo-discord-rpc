@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["*"]
+
+env:
+  VANITY_NAME: aceo-rpc
+  WIN32_PATH_IN: ./bin/aceo-rpc.exe # aceo-rpc-win.exe
+  WIN32_PATH_OUT: ./bin/aceo-rpc-win.zip
+  LINUX_PATH_IN: ./bin/aceo-rpc-linux
+  LINUX_PATH_OUT: ./bin/aceo-rpc-linux.tar.gz
+  win32_hash: ""
+  linux_hash: ""
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/iron
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate binaries
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        run: npm run build
+
+      - name: Create Windows artifact
+        run: |
+          win32_hash=$(sha256sum ${{ env.WIN32_PATH_IN }} | cut -d ' ' -f 1)
+          cp ./bin/bundle.js ./bin/${{ env.VANITY_NAME }}.js
+          zip -j ${{ env.WIN32_PATH_OUT }} ${{ env.WIN32_PATH_IN}} ./bin/${{ env.VANITY_NAME }}.js
+          echo "win32_hash=$win32_hash" >> $GITHUB_ENV
+          echo "SHA256 Checksum: $win32_hash"
+
+      # - name: Create Linux artifact
+      #   run: |
+      #     chmod +x ./bin/aceo-rpc-linux
+      #     linux_hash=$(sha256sum ./bin/aceo-rpc-linux | cut -d ' ' -f 1)
+      #     tar -czf ./bin/aceo-rpc-linux.tar.gz ./bin/aceo-rpc-linux ./bin/bundle.js
+      #     echo "linux_hash=$linux_hash" >> $GITHUB_ENV
+      #     echo "SHA256 Checksum: $linux_hash"
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./bin/*.zip,./bin/*.tar.gz"
+          body: |
+            ## SHA256
+            ${{ env.VANITY_NAME }}.exe: ${{ env.win32_hash }}
+          # ${{ env.VANITY_NAME }}: ${{ env.linux_hash }}

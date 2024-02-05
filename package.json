@@ -1,0 +1,28 @@
+{
+  "name": "aceo-rpc",
+  "version": "1.0.0",
+  "description": "Discord Rich Presence for Airport CEO!",
+  "main": "src/index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run lint && node --no-deprecation make",
+    "build:nopkg": "node --no-deprecation make --nopkg",
+    "build:linux": "npm run lint && node --no-deprecation make --linux",
+    "build:prod": "npm run lint && node --no-deprecation make --linux --windows",
+    "lint": "eslint src/**/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "benjammin4dayz",
+  "license": "MIT",
+  "devDependencies": {
+    "@yao-pkg/pkg": "^5.11.1",
+    "dotenv": "^16.3.1",
+    "esbuild": "^0.19.11",
+    "eslint": "^8.56.0",
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "discord-presence-utils": "github:benjammin4dayz/discord-presence-utils#v2.0.1"
+  }
+}

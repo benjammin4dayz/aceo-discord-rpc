@@ -1,0 +1,10 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "node": 20,
+    "es2024": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
