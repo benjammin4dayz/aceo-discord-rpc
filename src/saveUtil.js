@@ -3,8 +3,8 @@ import os from "os";
 import path from "path";
 
 /**
- *
- * @param {"win32" | "linux" | any} platform Identifier for the active O.S.
+ * Find the path where the user's game data is stored.
+ * @param {"win32" | "linux" | "darwin"} platform Identifier for the active O.S.
  * @returns {string} Path to the user's save folder if it exists, otherwise an empty string.
  */
 function findGameData(platform = os.platform()) {
@@ -59,7 +59,7 @@ function getLatestModifiedSaveFilePath(saveDir, file) {
 }
 
 /**
- * Responsible for reading and parsing the save file into a valid JSON object.
+ * Read and parse the save file into a valid JSON object.
  * @param {fs.PathLike} savePath Full path to a save file which contains valid JSON.
  * @returns Parsed JSON object representing the save file's contents.
  */

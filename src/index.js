@@ -16,11 +16,13 @@ console.log(
   ].join("\n")
 );
 
-const client = new RPCLite();
 const game = new ProcMon(["Airport CEO"]);
 game.startup(); // stdby for game start
+let [client, presenceInterval] = [null, null];
 
 game.on("start", () => {
+  !client && (client = new RPCLite());
+
   const presenceObj = {
     client,
     getter: getAirportData,
@@ -32,7 +34,10 @@ game.on("start", () => {
     .then(() => {
       handleProcessEvents(client);
       handleSetDiscordPresence(presenceObj);
-      setInterval(() => handleSetDiscordPresence(presenceObj), 1 * 60000);
+      presenceInterval = setInterval(
+        () => handleSetDiscordPresence(presenceObj),
+        1 * 60000
+      );
     })
     .catch((e) => {
       console.error("An error has occurred:", e);
@@ -41,7 +46,10 @@ game.on("start", () => {
 });
 
 game.on("stop", async () => {
-  await client.destroy();
+  clearInterval(presenceInterval);
+  await client?.clearActivity();
+  await client?.destroy();
+  client = null;
 });
 
 function handleProcessEvents(client) {

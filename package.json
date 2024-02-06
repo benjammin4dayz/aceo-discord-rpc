@@ -1,6 +1,6 @@
 {
   "name": "aceo-rpc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Discord Rich Presence for Airport CEO!",
   "main": "src/index.js",
   "private": true,
