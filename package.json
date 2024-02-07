@@ -23,6 +23,6 @@
     "prettier": "^2.8.8"
   },
   "dependencies": {
-    "discord-presence-utils": "github:benjammin4dayz/discord-presence-utils#v2.0.1"
+    "discord-presence-utils": "github:benjammin4dayz/discord-presence-utils#v2.2.0"
   }
 }

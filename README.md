@@ -1,8 +1,10 @@
 # Airport CEO Rich Presence
 
+[![Powered by Node.js](https://img.shields.io/badge/node-LTS_Iron-green?logo=nodedotjs&label=node)](https://nodejs.org/en/download/)
+
 Effortlessly share airport statistics with your friends on Discord!
 
-<img alt="Preview" src="./preview.png">
+<img src="./img/preview.svg">
 
 ## How-to:
 
